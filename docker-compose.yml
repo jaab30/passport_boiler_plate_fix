@@ -1,0 +1,32 @@
+version: "3.9"
+services:
+    mysql:
+        image: mysql:5.7
+        environment: 
+            - MYSQL_ROOT_PASSWORD=root
+            - MYSQL_DATABASE=passport_practice
+        ports:
+            - 3306:3306
+        volumes:
+            - /home/data/mysql:/var/lib/mysql
+    jwt-boiler-svc:
+        build: 
+            context: .
+            dockerfile: Dockerfile
+        image: jaab30/jwt-boiler
+        depends_on: 
+            - mysql
+        ports: 
+            - 8080:8080
+        environment: 
+            - DB_USER=root
+            - DB_PASSWORD=root
+            - DB_DATABASE=passport_practice
+            - DB_HOST=mysql
+        volumes: 
+            - ./:/src/app
+        container_name: jwt-boiler
+
+    
+
+    
